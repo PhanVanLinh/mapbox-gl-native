@@ -16,12 +16,12 @@ import timber.log.Timber;
 /**
  * Encapsulates {@link Polygon}'s functionality.
  */
-class Polygons implements Polygonable {
+class PolygonContainer implements Polygonable {
 
   private final NativeMapView nativeMapView;
   private final LongSparseArray<Annotation> annotations;
 
-  Polygons(NativeMapView nativeMapView, LongSparseArray<Annotation> annotations) {
+  PolygonContainer(NativeMapView nativeMapView, LongSparseArray<Annotation> annotations) {
     this.nativeMapView = nativeMapView;
     this.annotations = annotations;
   }

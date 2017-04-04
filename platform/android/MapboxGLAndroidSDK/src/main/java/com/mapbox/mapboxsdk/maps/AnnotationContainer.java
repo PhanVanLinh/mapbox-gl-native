@@ -12,12 +12,12 @@ import java.util.List;
 /**
  * Encapsulates {@link Annotation}'s functionality..
  */
-class Annotations implements Annotable {
+class AnnotationContainer implements Annotable {
 
   private final NativeMapView nativeMapView;
   private final LongSparseArray<Annotation> annotations;
 
-  Annotations(NativeMapView nativeMapView, LongSparseArray<Annotation> annotations) {
+  AnnotationContainer(NativeMapView nativeMapView, LongSparseArray<Annotation> annotations) {
     this.nativeMapView = nativeMapView;
     this.annotations = annotations;
   }

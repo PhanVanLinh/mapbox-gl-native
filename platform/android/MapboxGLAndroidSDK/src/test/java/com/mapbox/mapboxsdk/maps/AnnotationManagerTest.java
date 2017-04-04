@@ -9,7 +9,6 @@ import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.annotations.MarkerViewManager;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -20,12 +19,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-//TODO Fix failing tests
-// Proposed solution: https://github.com/powermock/powermock/wiki/SuppressUnwantedBehavior#suppress-static-initializer
-// At the moment PowerMock isn't fully compatible with Mockito2 - https://github.com/powermock/powermock/issues/726
 public class AnnotationManagerTest {
 
-  @Ignore
   @Test
   public void checksAddAMarker() throws Exception {
     NativeMapView aNativeMapView = mock(NativeMapView.class);
@@ -33,10 +28,11 @@ public class AnnotationManagerTest {
     LongSparseArray<Annotation> annotationsArray = new LongSparseArray<>();
     MarkerViewManager aMarkerViewManager = mock(MarkerViewManager.class);
     IconManager aIconManager = mock(IconManager.class);
-    Annotable annotations = new Annotations(aNativeMapView, annotationsArray);
-    Markable markers = new Markers(aNativeMapView, aMapView, annotationsArray, aIconManager, aMarkerViewManager);
-    Polygonable polygons = new Polygons(aNativeMapView, annotationsArray);
-    Polylinable polylines = new Polylines(aNativeMapView, annotationsArray);
+    Annotable annotations = new AnnotationContainer(aNativeMapView, annotationsArray);
+    Markable markers = new MarkerContainer(aNativeMapView, aMapView, annotationsArray, aIconManager,
+      aMarkerViewManager);
+    Polygonable polygons = new PolygonContainer(aNativeMapView, annotationsArray);
+    Polylinable polylines = new PolylineContainer(aNativeMapView, annotationsArray);
     AnnotationManager annotationManager = new AnnotationManager(aNativeMapView, aMapView, annotationsArray,
       aMarkerViewManager, aIconManager, annotations, markers, polygons, polylines);
     Marker aMarker = mock(Marker.class);
@@ -52,7 +48,6 @@ public class AnnotationManagerTest {
     assertEquals(aMarker, annotationManager.getAnnotation(aId));
   }
 
-  @Ignore
   @Test
   public void checksAddMarkers() throws Exception {
     NativeMapView aNativeMapView = mock(NativeMapView.class);
@@ -60,10 +55,11 @@ public class AnnotationManagerTest {
     LongSparseArray<Annotation> annotationsArray = new LongSparseArray<>();
     MarkerViewManager aMarkerViewManager = mock(MarkerViewManager.class);
     IconManager aIconManager = mock(IconManager.class);
-    Annotable annotations = new Annotations(aNativeMapView, annotationsArray);
-    Markable markers = new Markers(aNativeMapView, aMapView, annotationsArray, aIconManager, aMarkerViewManager);
-    Polygonable polygons = new Polygons(aNativeMapView, annotationsArray);
-    Polylinable polylines = new Polylines(aNativeMapView, annotationsArray);
+    Annotable annotations = new AnnotationContainer(aNativeMapView, annotationsArray);
+    Markable markers = new MarkerContainer(aNativeMapView, aMapView, annotationsArray, aIconManager,
+      aMarkerViewManager);
+    Polygonable polygons = new PolygonContainer(aNativeMapView, annotationsArray);
+    Polylinable polylines = new PolylineContainer(aNativeMapView, annotationsArray);
     AnnotationManager annotationManager = new AnnotationManager(aNativeMapView, aMapView, annotationsArray,
       aMarkerViewManager, aIconManager, annotations, markers, polygons, polylines);
     long firstId = 1L;

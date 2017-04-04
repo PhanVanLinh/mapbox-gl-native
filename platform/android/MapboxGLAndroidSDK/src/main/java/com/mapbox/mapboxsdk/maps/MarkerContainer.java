@@ -23,7 +23,7 @@ import timber.log.Timber;
 /**
  * Encapsulates {@link Marker}'s functionality.
  */
-class Markers implements Markable {
+class MarkerContainer implements Markable {
 
   private final NativeMapView nativeMapView;
   private final MapView mapView;
@@ -31,7 +31,7 @@ class Markers implements Markable {
   private final IconManager iconManager;
   private final MarkerViewManager markerViewManager;
 
-  Markers(NativeMapView nativeMapView, MapView mapView, LongSparseArray<Annotation> annotations, IconManager
+  MarkerContainer(NativeMapView nativeMapView, MapView mapView, LongSparseArray<Annotation> annotations, IconManager
     iconManager, MarkerViewManager markerViewManager) {
     this.nativeMapView = nativeMapView;
     this.mapView = mapView;

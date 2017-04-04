@@ -139,10 +139,10 @@ public class MapView extends FrameLayout {
     LongSparseArray<Annotation> annotationsArray = new LongSparseArray<>();
     MarkerViewManager markerViewManager = new MarkerViewManager((ViewGroup) findViewById(R.id.markerViewContainer));
     IconManager iconManager = new IconManager(nativeMapView);
-    Annotable annotations = new Annotations(nativeMapView, annotationsArray);
-    Markable markers = new Markers(nativeMapView, this, annotationsArray, iconManager, markerViewManager);
-    Polygonable polygons = new Polygons(nativeMapView, annotationsArray);
-    Polylinable polylines = new Polylines(nativeMapView, annotationsArray);
+    Annotable annotations = new AnnotationContainer(nativeMapView, annotationsArray);
+    Markable markers = new MarkerContainer(nativeMapView, this, annotationsArray, iconManager, markerViewManager);
+    Polygonable polygons = new PolygonContainer(nativeMapView, annotationsArray);
+    Polylinable polylines = new PolylineContainer(nativeMapView, annotationsArray);
     AnnotationManager annotationManager = new AnnotationManager(nativeMapView, this, annotationsArray,
       markerViewManager, iconManager, annotations, markers, polygons, polylines);
     Transform transform = new Transform(nativeMapView, annotationManager.getMarkerViewManager(), trackingSettings);

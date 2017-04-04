@@ -16,12 +16,12 @@ import timber.log.Timber;
 /**
  * Encapsulates {@link Polyline}'s functionality.
  */
-class Polylines implements Polylinable {
+class PolylineContainer implements Polylinable {
 
   private final NativeMapView nativeMapView;
   private final LongSparseArray<Annotation> annotations;
 
-  Polylines(NativeMapView nativeMapView, LongSparseArray<Annotation> annotations) {
+  PolylineContainer(NativeMapView nativeMapView, LongSparseArray<Annotation> annotations) {
     this.nativeMapView = nativeMapView;
     this.annotations = annotations;
   }
