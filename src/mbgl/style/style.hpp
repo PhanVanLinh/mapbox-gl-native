@@ -37,6 +37,7 @@ class RenderedQueryOptions;
 class Scheduler;
 class RenderLayer;
 class RenderSource;
+class RenderSpriteAtlas;
 class UpdateParameters;
 
 namespace style {
@@ -107,6 +108,10 @@ public:
     Light* getLight() const;
     RenderLight* getRenderLight() const;
 
+    const style::Image* getImage(const std::string&) const;
+    void addImage(const std::string&, std::unique_ptr<style::Image>);
+    void removeImage(const std::string&);
+
     RenderData getRenderData(MapDebugOptions, float angle) const;
 
     std::vector<Feature> queryRenderedFeatures(const ScreenLineString& geometry,
@@ -122,6 +127,7 @@ public:
     FileSource& fileSource;
     std::unique_ptr<GlyphAtlas> glyphAtlas;
     std::unique_ptr<SpriteAtlas> spriteAtlas;
+    std::unique_ptr<RenderSpriteAtlas> renderSpriteAtlas;
     std::unique_ptr<LineAtlas> lineAtlas;
 
     RenderSource* getRenderSource(const std::string& id) const;
@@ -153,7 +159,8 @@ private:
     void onGlyphsError(const FontStack&, const GlyphRange&, std::exception_ptr) override;
 
     // SpriteStoreObserver implementation.
-    void onSpriteLoaded() override;
+    using Images = std::unordered_map<std::string, std::shared_ptr<const style::Image>>;
+    void onSpriteLoaded(const Images&) override;
     void onSpriteError(std::exception_ptr) override;
 
     // SourceObserver implementation.

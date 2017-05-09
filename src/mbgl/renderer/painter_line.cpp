@@ -6,7 +6,7 @@
 #include <mbgl/style/layers/line_layer_impl.hpp>
 #include <mbgl/programs/programs.hpp>
 #include <mbgl/programs/line_program.hpp>
-#include <mbgl/sprite/sprite_atlas.hpp>
+#include <mbgl/renderer/render_sprite_atlas.hpp>
 #include <mbgl/geometry/line_atlas.hpp>
 
 namespace mbgl {

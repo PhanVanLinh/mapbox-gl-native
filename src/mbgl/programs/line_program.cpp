@@ -3,7 +3,7 @@
 #include <mbgl/renderer/render_tile.hpp>
 #include <mbgl/map/transform_state.hpp>
 #include <mbgl/util/mat2.hpp>
-#include <mbgl/sprite/sprite_atlas.hpp>
+#include <mbgl/renderer/render_sprite_atlas.hpp>
 #include <mbgl/geometry/line_atlas.hpp>
 
 namespace mbgl {

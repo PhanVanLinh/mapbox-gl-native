@@ -4,7 +4,7 @@
 #include <mbgl/renderer/render_tile.hpp>
 #include <mbgl/renderer/render_fill_extrusion_layer.hpp>
 #include <mbgl/style/layers/fill_extrusion_layer_impl.hpp>
-#include <mbgl/sprite/sprite_atlas.hpp>
+#include <mbgl/renderer/render_sprite_atlas.hpp>
 #include <mbgl/programs/programs.hpp>
 #include <mbgl/programs/fill_extrusion_program.hpp>
 #include <mbgl/util/constants.hpp>

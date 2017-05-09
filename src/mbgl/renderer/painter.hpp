@@ -30,7 +30,7 @@
 namespace mbgl {
 
 class RenderTile;
-class SpriteAtlas;
+class RenderSpriteAtlas;
 class View;
 class GlyphAtlas;
 class LineAtlas;
@@ -80,7 +80,7 @@ public:
     void render(const style::Style&,
                 const FrameData&,
                 View&,
-                SpriteAtlas& annotationSpriteAtlas);
+                RenderSpriteAtlas& annotationSpriteAtlas);
 
     void cleanup();
 
@@ -155,7 +155,7 @@ private:
     float depthRangeSize;
     const float depthEpsilon = 1.0f / (1 << 16);
 
-    SpriteAtlas* spriteAtlas = nullptr;
+    RenderSpriteAtlas* spriteAtlas = nullptr;
     GlyphAtlas* glyphAtlas = nullptr;
     LineAtlas* lineAtlas = nullptr;
 

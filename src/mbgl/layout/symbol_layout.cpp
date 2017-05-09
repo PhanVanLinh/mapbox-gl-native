@@ -6,7 +6,7 @@
 #include <mbgl/renderer/bucket_parameters.hpp>
 #include <mbgl/renderer/render_symbol_layer.hpp>
 #include <mbgl/style/layers/symbol_layer_impl.hpp>
-#include <mbgl/sprite/sprite_atlas.hpp>
+#include <mbgl/renderer/render_sprite_atlas.hpp>
 #include <mbgl/text/get_anchors.hpp>
 #include <mbgl/text/collision_tile.hpp>
 #include <mbgl/text/shaping.hpp>

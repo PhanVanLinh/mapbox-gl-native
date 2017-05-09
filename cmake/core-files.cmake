@@ -222,6 +222,8 @@ set(MBGL_CORE_FILES
     src/mbgl/renderer/render_source.cpp
     src/mbgl/renderer/render_source.hpp
     src/mbgl/renderer/render_source_observer.hpp
+    src/mbgl/renderer/render_sprite_atlas.cpp
+    src/mbgl/renderer/render_sprite_atlas.hpp
     src/mbgl/renderer/render_symbol_layer.cpp
     src/mbgl/renderer/render_symbol_layer.hpp
     src/mbgl/renderer/render_tile.cpp

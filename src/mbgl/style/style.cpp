@@ -34,6 +34,7 @@
 #include <mbgl/renderer/render_line_layer.hpp>
 #include <mbgl/renderer/render_raster_layer.hpp>
 #include <mbgl/renderer/render_symbol_layer.hpp>
+#include <mbgl/renderer/render_sprite_atlas.hpp>
 #include <mbgl/tile/tile.hpp>
 #include <mbgl/util/constants.hpp>
 #include <mbgl/util/exception.hpp>
@@ -56,7 +57,8 @@ Style::Style(Scheduler& scheduler_, FileSource& fileSource_, float pixelRatio)
     : scheduler(scheduler_),
       fileSource(fileSource_),
       glyphAtlas(std::make_unique<GlyphAtlas>(Size{ 2048, 2048 }, fileSource)),
-      spriteAtlas(std::make_unique<SpriteAtlas>(Size{ 1024, 1024 }, pixelRatio)),
+      spriteAtlas(std::make_unique<SpriteAtlas>(pixelRatio)),
+      renderSpriteAtlas(std::make_unique<RenderSpriteAtlas>(Size{ 1024, 1024 }, pixelRatio)),
       lineAtlas(std::make_unique<LineAtlas>(Size{ 256, 512 })),
       light(std::make_unique<Light>()),
       renderLight(std::make_unique<RenderLight>(light->impl)),
@@ -502,6 +504,26 @@ bool Style::isLoaded() const {
     return true;
 }
 
+void Style::addImage(const std::string& id, std::unique_ptr<style::Image> image_) {
+    std::shared_ptr<const style::Image> added = spriteAtlas->addImage(id, std::move(image_));
+    if (added) {
+        renderSpriteAtlas->addImage(id, std::move(added));
+        observer->onUpdate(Update::Repaint);
+    }
+}
+
+void Style::removeImage(const std::string& id) {
+    bool removed = spriteAtlas->removeImage(id);
+    if (removed) {
+        renderSpriteAtlas->removeImage(id);
+        observer->onUpdate(Update::Repaint);
+    }
+}
+
+const style::Image* Style::getImage(const std::string& id) const {
+    return spriteAtlas->getImage(id);
+}
+
 RenderData Style::getRenderData(MapDebugOptions debugOptions, float angle) const {
     RenderData result;
 
@@ -714,8 +736,12 @@ void Style::onTileError(RenderSource& source, const OverscaledTileID& tileID, st
     observer->onResourceError(error);
 }
 
-void Style::onSpriteLoaded() {
-    observer->onSpriteLoaded();
+void Style::onSpriteLoaded(const Images& images) {
+    observer->onSpriteLoaded(images);
+
+    // update render sprite atlas
+    renderSpriteAtlas->onSpriteLoaded(images);
+
     observer->onUpdate(Update::Repaint); // For *-pattern properties.
 }
 

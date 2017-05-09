@@ -3,7 +3,7 @@
 #include <mbgl/tile/geometry_tile.hpp>
 #include <mbgl/text/collision_tile.hpp>
 #include <mbgl/layout/symbol_layout.hpp>
-#include <mbgl/sprite/sprite_atlas.hpp>
+#include <mbgl/renderer/render_sprite_atlas.hpp>
 #include <mbgl/renderer/bucket_parameters.hpp>
 #include <mbgl/renderer/group_by_layout.hpp>
 #include <mbgl/style/filter.hpp>

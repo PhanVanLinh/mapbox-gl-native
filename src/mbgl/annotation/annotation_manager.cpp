@@ -20,10 +20,12 @@ const std::string AnnotationManager::SourceID = "com.mapbox.annotations";
 const std::string AnnotationManager::PointLayerID = "com.mapbox.annotations.points";
 
 AnnotationManager::AnnotationManager(float pixelRatio)
-    : spriteAtlas({ 1024, 1024 }, pixelRatio) {
+        : spriteAtlas(pixelRatio)
+        , renderSpriteAtlas({ 1024, 1024 }, pixelRatio) {
     // This is a special atlas, holding only images added via addIcon, so we always treat it as
     // loaded.
     spriteAtlas.markAsLoaded();
+    renderSpriteAtlas.markAsLoaded();
 }
 
 AnnotationManager::~AnnotationManager() = default;
@@ -207,11 +209,17 @@ void AnnotationManager::removeTile(AnnotationTile& tile) {
 }
 
 void AnnotationManager::addImage(const std::string& id, std::unique_ptr<style::Image> image) {
-    spriteAtlas.addImage(id, std::move(image));
+    std::shared_ptr<const style::Image> added = spriteAtlas.addImage(id, std::move(image));
+    if (added) {
+        renderSpriteAtlas.addImage(id, std::move(added));
+    }
 }
 
 void AnnotationManager::removeImage(const std::string& id) {
-    spriteAtlas.removeImage(id);
+    bool removed = spriteAtlas.removeImage(id);
+    if (removed) {
+        renderSpriteAtlas.removeImage(id);
+    }
 }
 
 double AnnotationManager::getTopOffsetPixelsForImage(const std::string& id) {

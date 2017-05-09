@@ -1,7 +1,7 @@
 #pragma once
 
 #include <mbgl/text/glyph.hpp>
-#include <mbgl/sprite/sprite_atlas.hpp>
+#include <mbgl/renderer/render_sprite_atlas.hpp>
 #include <mbgl/style/image.hpp>
 #include <mbgl/util/optional.hpp>
 

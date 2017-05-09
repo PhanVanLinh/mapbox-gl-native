@@ -30,7 +30,7 @@ GeometryTile::GeometryTile(const OverscaledTileID& id_,
                            std::string sourceID_,
                            const TileParameters& parameters,
                            GlyphAtlas& glyphAtlas_,
-                           SpriteAtlas& spriteAtlas_)
+                           RenderSpriteAtlas& spriteAtlas_)
     : Tile(id_),
       sourceID(std::move(sourceID_)),
       style(parameters.style),

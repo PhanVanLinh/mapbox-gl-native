@@ -3,6 +3,7 @@
 #include <mbgl/annotation/annotation.hpp>
 #include <mbgl/annotation/symbol_annotation_impl.hpp>
 #include <mbgl/sprite/sprite_atlas.hpp>
+#include <mbgl/renderer/render_sprite_atlas.hpp>
 #include <mbgl/map/update.hpp>
 #include <mbgl/util/noncopyable.hpp>
 
@@ -36,6 +37,7 @@ public:
     void removeImage(const std::string&);
     double getTopOffsetPixelsForImage(const std::string&);
     SpriteAtlas& getSpriteAtlas() { return spriteAtlas; }
+    RenderSpriteAtlas& getRenderSpriteAtlas() { return renderSpriteAtlas; }
 
     void updateStyle(style::Style&);
     void updateData();
@@ -75,6 +77,7 @@ private:
     std::unordered_set<std::string> obsoleteShapeAnnotationLayers;
     std::unordered_set<AnnotationTile*> tiles;
     SpriteAtlas spriteAtlas;
+    RenderSpriteAtlas renderSpriteAtlas;
 
     friend class AnnotationTile;
 };

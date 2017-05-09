@@ -1,5 +1,5 @@
 #include <mbgl/geometry/anchor.hpp>
-#include <mbgl/sprite/sprite_atlas.hpp>
+#include <mbgl/renderer/render_sprite_atlas.hpp>
 #include <mbgl/test/util.hpp>
 #include <mbgl/text/quads.hpp>
 #include <mbgl/text/shaping.hpp>

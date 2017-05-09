@@ -20,7 +20,7 @@
 #include <mbgl/style/layers/custom_layer_impl.hpp>
 #include <mbgl/renderer/render_fill_extrusion_layer.hpp>
 
-#include <mbgl/sprite/sprite_atlas.hpp>
+#include <mbgl/renderer/render_sprite_atlas.hpp>
 #include <mbgl/geometry/line_atlas.hpp>
 #include <mbgl/text/glyph_atlas.hpp>
 
@@ -125,7 +125,7 @@ void Painter::cleanup() {
     context.performCleanup();
 }
 
-void Painter::render(const Style& style, const FrameData& frame_, View& view, SpriteAtlas& annotationSpriteAtlas) {
+void Painter::render(const Style& style, const FrameData& frame_, View& view, RenderSpriteAtlas& annotationSpriteAtlas) {
     frame = frame_;
     if (frame.contextMode == GLContextMode::Shared) {
         context.setDirtyState();
@@ -141,7 +141,7 @@ void Painter::render(const Style& style, const FrameData& frame_, View& view, Sp
     };
 
     glyphAtlas = style.glyphAtlas.get();
-    spriteAtlas = style.spriteAtlas.get();
+    spriteAtlas = style.renderSpriteAtlas.get();
     lineAtlas = style.lineAtlas.get();
 
     evaluatedLight = style.getRenderLight()->getEvaluated();

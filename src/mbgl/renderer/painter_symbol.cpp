@@ -5,7 +5,7 @@
 #include <mbgl/renderer/render_symbol_layer.hpp>
 #include <mbgl/style/layers/symbol_layer_impl.hpp>
 #include <mbgl/text/glyph_atlas.hpp>
-#include <mbgl/sprite/sprite_atlas.hpp>
+#include <mbgl/renderer/render_sprite_atlas.hpp>
 #include <mbgl/programs/programs.hpp>
 #include <mbgl/programs/symbol_program.hpp>
 #include <mbgl/programs/collision_box_program.hpp>
@@ -67,7 +67,7 @@ void Painter::renderSymbol(PaintParameters& parameters,
         auto values = layer.iconPropertyValues(layout);
         auto paintPropertyValues = layer.iconPaintProperties();
 
-        SpriteAtlas& atlas = *bucket.spriteAtlas;
+        RenderSpriteAtlas& atlas = *bucket.spriteAtlas;
         const bool iconScaled = layout.get<IconSize>().constantOr(1.0) != 1.0 ||
             frame.pixelRatio != atlas.getPixelRatio() ||
             bucket.iconsNeedLinear;

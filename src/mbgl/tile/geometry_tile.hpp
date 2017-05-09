@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mbgl/sprite/sprite_atlas.hpp>
+#include <mbgl/renderer/render_sprite_atlas.hpp>
 #include <mbgl/tile/tile.hpp>
 #include <mbgl/tile/geometry_tile_worker.hpp>
 #include <mbgl/text/glyph_atlas.hpp>
@@ -32,7 +32,7 @@ public:
                  std::string sourceID,
                  const TileParameters&,
                  GlyphAtlas&,
-                 SpriteAtlas&);
+                 RenderSpriteAtlas&);
 
     ~GeometryTile() override;
 
@@ -97,7 +97,7 @@ private:
     Actor<GeometryTileWorker> worker;
 
     GlyphAtlas& glyphAtlas;
-    SpriteAtlas& spriteAtlas;
+    RenderSpriteAtlas& spriteAtlas;
 
     uint64_t correlationID = 0;
     optional<PlacementConfig> requestedConfig;

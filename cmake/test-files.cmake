@@ -43,6 +43,7 @@ set(MBGL_TEST_FILES
 
     # renderer
     test/renderer/group_by_layout.test.cpp
+    test/renderer/render_sprite_atlas.test.cpp
 
     # sprite
     test/sprite/sprite_atlas.test.cpp

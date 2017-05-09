@@ -2,7 +2,7 @@
 
 #include <mbgl/map/mode.hpp>
 #include <mbgl/tile/tile_id.hpp>
-#include <mbgl/sprite/sprite_atlas.hpp>
+#include <mbgl/renderer/render_sprite_atlas.hpp>
 #include <mbgl/text/glyph.hpp>
 #include <mbgl/text/placement_config.hpp>
 #include <mbgl/actor/actor_ref.hpp>

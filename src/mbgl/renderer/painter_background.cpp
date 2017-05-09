@@ -4,7 +4,7 @@
 #include <mbgl/style/layers/background_layer_impl.hpp>
 #include <mbgl/programs/programs.hpp>
 #include <mbgl/programs/fill_program.hpp>
-#include <mbgl/sprite/sprite_atlas.hpp>
+#include <mbgl/renderer/render_sprite_atlas.hpp>
 #include <mbgl/util/tile_cover.hpp>
 
 namespace mbgl {

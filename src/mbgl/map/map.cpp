@@ -278,7 +278,7 @@ void Map::Impl::render(View& view) {
         painter->render(*style,
                         frameData,
                         view,
-                        annotationManager->getSpriteAtlas());
+                        annotationManager->getRenderSpriteAtlas());
 
         painter->cleanup();
 
@@ -312,7 +312,7 @@ void Map::Impl::render(View& view) {
         painter->render(*style,
                         frameData,
                         view,
-                        annotationManager->getSpriteAtlas());
+                        annotationManager->getRenderSpriteAtlas());
 
         auto request = std::move(stillImageRequest);
         request->callback(nullptr);
@@ -941,8 +941,7 @@ void Map::addImage(const std::string& id, std::unique_ptr<style::Image> image) {
     }
 
     impl->styleMutated = true;
-    impl->style->spriteAtlas->addImage(id, std::move(image));
-    impl->onUpdate(Update::Repaint);
+    impl->style->addImage(id, std::move(image));
 }
 
 void Map::removeImage(const std::string& id) {
@@ -951,13 +950,12 @@ void Map::removeImage(const std::string& id) {
     }
 
     impl->styleMutated = true;
-    impl->style->spriteAtlas->removeImage(id);
-    impl->onUpdate(Update::Repaint);
+    impl->style->removeImage(id);
 }
 
 const style::Image* Map::getImage(const std::string& id) {
     if (impl->style) {
-        return impl->style->spriteAtlas->getImage(id);
+        return impl->style->getImage(id);
     }
     return nullptr;
 }

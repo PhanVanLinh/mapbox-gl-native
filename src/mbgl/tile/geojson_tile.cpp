@@ -88,7 +88,7 @@ GeoJSONTile::GeoJSONTile(const OverscaledTileID& overscaledTileID,
                          mapbox::geometry::feature_collection<int16_t> features)
     : GeometryTile(overscaledTileID, sourceID_, parameters,
                    *parameters.style.glyphAtlas,
-                   *parameters.style.spriteAtlas) {
+                   *parameters.style.renderSpriteAtlas) {
     updateData(std::move(features));
 }
 

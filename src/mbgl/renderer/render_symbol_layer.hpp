@@ -2,7 +2,7 @@
 
 #include <mbgl/text/glyph.hpp>
 #include <mbgl/renderer/render_layer.hpp>
-#include <mbgl/sprite/sprite_atlas.hpp>
+#include <mbgl/renderer/render_sprite_atlas.hpp>
 #include <mbgl/style/layers/symbol_layer.hpp>
 #include <mbgl/style/layers/symbol_layer_properties.hpp>
 

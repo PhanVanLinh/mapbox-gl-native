@@ -1,5 +1,5 @@
 #include <mbgl/programs/fill_extrusion_program.hpp>
-#include <mbgl/sprite/sprite_atlas.hpp>
+#include <mbgl/renderer/render_sprite_atlas.hpp>
 #include <mbgl/renderer/cross_faded_property_evaluator.hpp>
 #include <mbgl/tile/tile_id.hpp>
 #include <mbgl/map/transform_state.hpp>

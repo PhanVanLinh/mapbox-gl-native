@@ -87,7 +87,7 @@ VectorTile::VectorTile(const OverscaledTileID& id_,
                        const Tileset& tileset)
     : GeometryTile(id_, sourceID_, parameters,
                    *parameters.style.glyphAtlas,
-                   *parameters.style.spriteAtlas),
+                   *parameters.style.renderSpriteAtlas),
       loader(*this, id_, parameters, tileset) {
 }
 
