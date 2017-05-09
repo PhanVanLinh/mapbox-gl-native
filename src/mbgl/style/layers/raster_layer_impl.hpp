@@ -15,7 +15,7 @@ public:
 
     std::unique_ptr<RenderLayer> createRenderLayer() const override;
 
-    RasterPaintProperties::Cascading cascading;
+    RasterPaintProperties::Cascading paint;
 };
 
 } // namespace style
