@@ -249,7 +249,7 @@ static std::vector<std::unique_ptr<RenderLayer>> toRenderLayers(const std::vecto
     for (auto& layer : layers) {
         renderLayers.push_back(layer->createRenderLayer());
 
-        renderLayers.back()->cascade(CascadeParameters {
+        renderLayers.back()->transition(TransitionParameters {
             { ClassID::Default },
             Clock::time_point::max(),
             TransitionOptions()

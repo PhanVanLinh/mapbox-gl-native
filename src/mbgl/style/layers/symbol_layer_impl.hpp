@@ -17,7 +17,7 @@ public:
     std::unique_ptr<RenderLayer> createRenderLayer() const override;
 
     SymbolLayoutProperties::Unevaluated layout;
-    SymbolPaintProperties::Cascading paint;
+    SymbolPaintProperties::Transitionable paint;
 };
 
 } // namespace style

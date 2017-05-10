@@ -15,7 +15,7 @@ public:
 
     std::unique_ptr<RenderLayer> createRenderLayer() const override;
 
-    CirclePaintProperties::Cascading paint;
+    CirclePaintProperties::Transitionable paint;
 };
 
 } // namespace style
