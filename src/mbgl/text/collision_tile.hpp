@@ -29,7 +29,7 @@ namespace bg = boost::geometry;
 namespace bgm = bg::model;
 namespace bgi = bg::index;
 typedef bgm::point<float, 2, bg::cs::cartesian> CollisionPoint;
-typedef bgm::box<CollisionPoint> Box;
+using Box = bgm::box<CollisionPoint>;
 typedef std::tuple<Box, CollisionBox, IndexedSubfeature> CollisionTreeBox;
 typedef bgi::rtree<CollisionTreeBox, bgi::linear<16, 4>> Tree;
 
