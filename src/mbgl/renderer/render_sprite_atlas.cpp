@@ -17,8 +17,8 @@ SpriteAtlasElement::SpriteAtlasElement(Rect<uint16_t> rect_,
                                        const style::Image& image,
                                        Size size_, float pixelRatio)
     : pos(std::move(rect_)),
-      sdf(image.sdf),
-      relativePixelRatio(image.pixelRatio / pixelRatio),
+      sdf(image.isSdf()),
+      relativePixelRatio(image.getPixelRatio() / pixelRatio),
       width(image.getWidth()),
       height(image.getHeight()) {
 
@@ -66,7 +66,7 @@ void RenderSpriteAtlas::addImage(const std::string& id, std::shared_ptr<const st
     Entry& entry = it->second;
 
     // There is already a sprite with that name in our store.
-    assert(entry.image->image.size == image_->image.size);
+    assert(entry.image->getImage().size == image_->getImage().size);
 
     entry.image = std::move(image_);
 
@@ -152,8 +152,8 @@ optional<SpriteAtlasElement> RenderSpriteAtlas::getImage(const std::string& id,
         };
     }
 
-    const uint16_t pixelWidth = std::ceil(entry.image->image.size.width / pixelRatio);
-    const uint16_t pixelHeight = std::ceil(entry.image->image.size.height / pixelRatio);
+    const uint16_t pixelWidth = std::ceil(entry.image->getImage().size.width / pixelRatio);
+    const uint16_t pixelHeight = std::ceil(entry.image->getImage().size.height / pixelRatio);
 
     // Increase to next number divisible by 4, but at least 1.
     // This is so we can scale down the texture coordinates and pack them
@@ -188,7 +188,7 @@ void RenderSpriteAtlas::copy(const Entry& entry, optional<Rect<uint16_t>> Entry:
         image.fill(0);
     }
 
-    const PremultipliedImage& src = entry.image->image;
+    const PremultipliedImage& src = entry.image->getImage();
     const Rect<uint16_t>& rect = *(entry.*entryRect);
 
     const uint32_t padding = 1;

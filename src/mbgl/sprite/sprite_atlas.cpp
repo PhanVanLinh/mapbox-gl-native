@@ -133,7 +133,7 @@ std::shared_ptr<const style::Image> SpriteAtlas::addImage(const std::string& id,
     std::shared_ptr<const style::Image>& image = it->second;
 
     // There is already a sprite with that name in our store.
-    if (image->image.size != image_->image.size) {
+    if (image->getImage().size != image_->getImage().size) {
         Log::Warning(Event::Sprite, "Can't change sprite dimensions for '%s'", id.c_str());
         return {};
     }

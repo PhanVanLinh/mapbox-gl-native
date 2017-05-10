@@ -224,7 +224,7 @@ void AnnotationManager::removeImage(const std::string& id) {
 
 double AnnotationManager::getTopOffsetPixelsForImage(const std::string& id) {
     const style::Image* image = spriteAtlas.getImage(id);
-    return image ? -(image->image.size.height / image->pixelRatio) / 2 : 0;
+    return image ? -(image->getImage().size.height / image->getPixelRatio()) / 2 : 0;
 }
 
 } // namespace mbgl
