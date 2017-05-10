@@ -15,6 +15,16 @@ const style::CircleLayer::Impl& RenderCircleLayer::impl() const {
     return static_cast<const style::CircleLayer::Impl&>(*baseImpl);
 }
 
+optional<std::string> RenderCircleLayer::updateImpl(Immutable<style::Layer::Impl> baseImpl_) {
+    auto impl_ = dynamicImmutableCast<style::CircleLayer::Impl>(baseImpl_);
+    bool needsLayout = (
+        impl_->filter     != impl().filter ||
+        impl_->visibility != impl().visibility ||
+        impl_->paint.hasDataDrivenPropertyDifference(impl().paint));
+    baseImpl = impl_;
+    return needsLayout ? optional<std::string>(impl_->source) : optional<std::string>();
+}
+
 std::unique_ptr<Bucket> RenderCircleLayer::createBucket(const BucketParameters& parameters, const std::vector<const RenderLayer*>& layers) const {
     return std::make_unique<CircleBucket>(parameters, layers);
 }

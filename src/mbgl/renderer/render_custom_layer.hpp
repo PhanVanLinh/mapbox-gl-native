@@ -10,6 +10,7 @@ public:
     RenderCustomLayer(Immutable<style::CustomLayer::Impl>);
     ~RenderCustomLayer() final = default;
 
+    optional<std::string> updateImpl(Immutable<style::Layer::Impl>) final;
     void transition(const TransitionParameters&) final {}
     void evaluate(const PropertyEvaluationParameters&) override;
     bool hasTransition() const override;

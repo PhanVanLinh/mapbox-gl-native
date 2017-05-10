@@ -33,6 +33,17 @@ std::unique_ptr<SymbolLayout> RenderSymbolLayer::createLayout(const BucketParame
                                           glyphDependencies);
 }
 
+optional<std::string> RenderSymbolLayer::updateImpl(Immutable<style::Layer::Impl> baseImpl_) {
+    auto impl_ = dynamicImmutableCast<style::SymbolLayer::Impl>(baseImpl_);
+    bool needsLayout = (
+        impl_->filter     != impl().filter ||
+        impl_->visibility != impl().visibility ||
+        impl_->layout     != impl().layout ||
+        impl_->paint.hasDataDrivenPropertyDifference(impl().paint));
+    baseImpl = impl_;
+    return needsLayout ? optional<std::string>(impl_->source) : optional<std::string>();
+}
+
 void RenderSymbolLayer::transition(const TransitionParameters& parameters) {
     unevaluated = impl().paint.transition(parameters, std::move(unevaluated));
 }

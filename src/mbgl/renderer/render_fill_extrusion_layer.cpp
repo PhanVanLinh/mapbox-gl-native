@@ -19,6 +19,16 @@ std::unique_ptr<Bucket> RenderFillExtrusionLayer::createBucket(const BucketParam
     return std::make_unique<FillExtrusionBucket>(parameters, layers);
 }
 
+optional<std::string> RenderFillExtrusionLayer::updateImpl(Immutable<style::Layer::Impl> baseImpl_) {
+    auto impl_ = dynamicImmutableCast<style::FillExtrusionLayer::Impl>(baseImpl_);
+    bool needsLayout = (
+        impl_->filter     != impl().filter ||
+        impl_->visibility != impl().visibility ||
+        impl_->paint.hasDataDrivenPropertyDifference(impl().paint));
+    baseImpl = impl_;
+    return needsLayout ? optional<std::string>(impl_->source) : optional<std::string>();
+}
+
 void RenderFillExtrusionLayer::transition(const TransitionParameters& parameters) {
     unevaluated = impl().paint.transition(parameters, std::move(unevaluated));
 }

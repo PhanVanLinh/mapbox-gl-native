@@ -12,6 +12,11 @@ const style::RasterLayer::Impl& RenderRasterLayer::impl() const {
     return static_cast<const style::RasterLayer::Impl&>(*baseImpl);
 }
 
+optional<std::string> RenderRasterLayer::updateImpl(Immutable<style::Layer::Impl> impl) {
+    std::swap(impl, baseImpl);
+    return {};
+}
+
 std::unique_ptr<Bucket> RenderRasterLayer::createBucket(const BucketParameters&, const std::vector<const RenderLayer*>&) const {
     assert(false);
     return nullptr;

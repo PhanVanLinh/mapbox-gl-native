@@ -11,6 +11,7 @@ public:
     RenderBackgroundLayer(Immutable<style::BackgroundLayer::Impl>);
     ~RenderBackgroundLayer() final = default;
 
+    optional<std::string> updateImpl(Immutable<style::Layer::Impl>) override;
     void transition(const TransitionParameters&) override;
     void evaluate(const PropertyEvaluationParameters&) override;
     bool hasTransition() const override;

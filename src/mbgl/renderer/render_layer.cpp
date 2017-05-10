@@ -8,10 +8,6 @@ RenderLayer::RenderLayer(style::LayerType type_, Immutable<style::Layer::Impl> b
           baseImpl(baseImpl_) {
 }
 
-void RenderLayer::setImpl(Immutable<style::Layer::Impl> impl) {
-    baseImpl = impl;
-}
-
 const std::string& RenderLayer::getID() const {
     return baseImpl->id;
 }

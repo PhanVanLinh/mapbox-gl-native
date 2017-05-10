@@ -87,7 +87,6 @@ void Style::setJSON(const std::string& json) {
     renderSources.clear();
     layers.clear();
     transitionOptions = {};
-    updateBatch = {};
 
     Parser parser;
     auto error = parser.parse(json);
@@ -152,7 +151,6 @@ std::unique_ptr<Source> Style::removeSource(const std::string& id) {
     auto source = std::move(*it);
     source->setObserver(nullptr);
     sources.erase(it);
-    updateBatch.sourceIDs.erase(id);
 
     return source;
 }
@@ -364,9 +362,14 @@ void Style::update(const UpdateParameters& parameters) {
         renderLayers.emplace(entry.first, entry.second->createRenderLayer());
     }
 
+    std::unordered_set<std::string> updateSourceIDs;
+
     // Update render layers for changed layers.
     for (const auto& entry : layerDiff.changed) {
-        renderLayers.at(entry.first)->setImpl(entry.second);
+        optional<std::string> reloadSourceID = renderLayers.at(entry.first)->updateImpl(entry.second);
+        if (reloadSourceID) {
+            updateSourceIDs.insert(std::move(*reloadSourceID));
+        }
     }
 
     // Update layers for class and zoom changes.
@@ -400,7 +403,7 @@ void Style::update(const UpdateParameters& parameters) {
     }
 
     for (const auto& entry : renderSources) {
-        bool updated = updateBatch.sourceIDs.count(entry.first);
+        bool updated = updateSourceIDs.count(entry.first);
         if (entry.second->enabled) {
             if (updated) {
                 entry.second->reloadTiles();
@@ -412,8 +415,6 @@ void Style::update(const UpdateParameters& parameters) {
             entry.second->removeTiles();
         }
     }
-
-    updateBatch.sourceIDs.clear();
 }
 
 std::vector<const Source*> Style::getSources() const {
@@ -713,28 +714,11 @@ void Style::onSpriteError(std::exception_ptr error) {
     observer->onResourceError(error);
 }
 
-struct QueueSourceReloadVisitor {
-    UpdateBatch& updateBatch;
-
-    // No need to reload sources for these types; their visibility can change but
-    // they don't participate in layout.
-    void operator()(CustomLayer&) {}
-    void operator()(RasterLayer&) {}
-    void operator()(BackgroundLayer&) {}
-
-    template <class VectorLayer>
-    void operator()(VectorLayer& layer) {
-        updateBatch.sourceIDs.insert(layer.getSourceID());
-    }
-};
-
-void Style::onLayerFilterChanged(Layer& layer) {
-    layer.accept(QueueSourceReloadVisitor { updateBatch });
+void Style::onLayerFilterChanged(Layer&) {
     observer->onUpdate(Update::Repaint);
 }
 
-void Style::onLayerVisibilityChanged(Layer& layer) {
-    layer.accept(QueueSourceReloadVisitor { updateBatch });
+void Style::onLayerVisibilityChanged(Layer&) {
     observer->onUpdate(Update::Repaint);
 }
 
@@ -742,13 +726,11 @@ void Style::onLayerPaintPropertyChanged(Layer&) {
     observer->onUpdate(Update::Repaint);
 }
 
-void Style::onLayerDataDrivenPaintPropertyChanged(Layer& layer) {
-    layer.accept(QueueSourceReloadVisitor { updateBatch });
+void Style::onLayerDataDrivenPaintPropertyChanged(Layer&) {
     observer->onUpdate(Update::Repaint);
 }
 
-void Style::onLayerLayoutPropertyChanged(Layer& layer, const char *) {
-    layer.accept(QueueSourceReloadVisitor { updateBatch });
+void Style::onLayerLayoutPropertyChanged(Layer&, const char *) {
     observer->onUpdate(Update::Repaint);
 }
 

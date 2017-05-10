@@ -12,6 +12,11 @@ const style::CustomLayer::Impl& RenderCustomLayer::impl() const {
     return static_cast<const style::CustomLayer::Impl&>(*baseImpl);
 }
 
+optional<std::string> RenderCustomLayer::updateImpl(Immutable<style::Layer::Impl> impl) {
+    std::swap(impl, baseImpl);
+    return {};
+}
+
 void RenderCustomLayer::evaluate(const PropertyEvaluationParameters&) {
     passes = RenderPass::Translucent;
 }

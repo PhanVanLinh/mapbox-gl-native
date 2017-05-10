@@ -11,6 +11,7 @@ public:
     RenderCircleLayer(Immutable<style::CircleLayer::Impl>);
     ~RenderCircleLayer() final = default;
 
+    optional<std::string> updateImpl(Immutable<style::Layer::Impl>) override;
     void transition(const TransitionParameters&) override;
     void evaluate(const PropertyEvaluationParameters&) override;
     bool hasTransition() const override;
