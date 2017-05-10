@@ -71,16 +71,6 @@ QThreadStorage<std::shared_ptr<mbgl::util::RunLoop>> loop;
 
 // Conversion helper functions.
 
-auto fromQStringList(const QStringList &list)
-{
-    std::vector<std::string> strings;
-    strings.reserve(list.size());
-    for (const QString &string : list) {
-        strings.push_back(string.toStdString());
-    }
-    return strings;
-}
-
 mbgl::Size sanitizedSize(const QSize& size) {
     return mbgl::Size {
         mbgl::util::max(0u, static_cast<uint32_t>(size.width())),
@@ -752,66 +742,55 @@ void QMapboxGL::setGestureInProgress(bool progress)
 }
 
 /*!
-    Adds an \a className to the list of active classes. Layers tagged with a certain class
-    will only be active when the class is added.
-
-    This was removed from the \l {https://www.mapbox.com/mapbox-gl-style-spec/#layer-paint.*}
-    {Mapbox style specification} and should no longer be used.
+    Paint classes were removed from the \l {https://www.mapbox.com/mapbox-gl-style-spec/#layer-paint.*}
+    {Mapbox style specification}; this method no longer has any effect.
 
     \deprecated
-    \sa removeClass()
 */
-void QMapboxGL::addClass(const QString &className)
+void QMapboxGL::addClass(const QString &)
 {
-    d_ptr->mapObj->addClass(className.toStdString());
 }
 
 /*!
-    Removes a \a className.
+    Paint classes were removed from the \l {https://www.mapbox.com/mapbox-gl-style-spec/#layer-paint.*}
+    {Mapbox style specification}; this method no longer has any effect.
 
     \deprecated
-    \sa addClass()
 */
-void QMapboxGL::removeClass(const QString &className)
+void QMapboxGL::removeClass(const QString &)
 {
-    d_ptr->mapObj->removeClass(className.toStdString());
 }
 
 /*!
-    Returns true when \a className is active, false otherwise.
+    Paint classes were removed from the \l {https://www.mapbox.com/mapbox-gl-style-spec/#layer-paint.*}
+    {Mapbox style specification}; this method always returns false.
 
     \deprecated
-    \sa addClass()
 */
-bool QMapboxGL::hasClass(const QString &className) const
+bool QMapboxGL::hasClass(const QString &) const
 {
-    return d_ptr->mapObj->hasClass(className.toStdString());
+    return false;
 }
 
 /*!
-    Bulk adds a list of \a classNames.
+    Paint classes were removed from the \l {https://www.mapbox.com/mapbox-gl-style-spec/#layer-paint.*}
+    {Mapbox style specification}; this method no longer has any effect.
 
     \deprecated
-    \sa addClass()
 */
-void QMapboxGL::setClasses(const QStringList &classNames)
+void QMapboxGL::setClasses(const QStringList &)
 {
-    d_ptr->mapObj->setClasses(fromQStringList(classNames));
 }
 
 /*!
-    Returns a list of active classes.
+    Paint classes were removed from the \l {https://www.mapbox.com/mapbox-gl-style-spec/#layer-paint.*}
+    {Mapbox style specification}; this method always returns an empty list.
 
     \deprecated
-    \sa setClasses()
 */
 QStringList QMapboxGL::getClasses() const
 {
-    QStringList classNames;
-    for (const std::string &mbglClass : d_ptr->mapObj->getClasses()) {
-        classNames << QString::fromStdString(mbglClass);
-    }
-    return classNames;
+    return QStringList();
 }
 
 /*!
@@ -958,8 +937,7 @@ void QMapboxGL::setLayoutProperty(const QString& layer, const QString& property,
     as defined by the \l {https://www.mapbox.com/mapbox-gl-style-spec/} {Mapbox style specification}
     for paint properties.
 
-    The argument \a styleClass is deprecated and is used for defining the style class for the paint
-    property.
+    The final argument is deprecated and unused.
 
     For paint properties that take a color as \a value, such as \c fill-color, a string such as
     \c blue can be passed or a QColor.
@@ -1006,7 +984,7 @@ void QMapboxGL::setLayoutProperty(const QString& layer, const QString& property,
         map->setPaintProperty("route","line-dasharray", lineDashArray);
     \endcode
 */
-void QMapboxGL::setPaintProperty(const QString& layer, const QString& property, const QVariant& value, const QString& styleClass)
+void QMapboxGL::setPaintProperty(const QString& layer, const QString& property, const QVariant& value, const QString&)
 {
     using namespace mbgl::style;
 
@@ -1016,12 +994,7 @@ void QMapboxGL::setPaintProperty(const QString& layer, const QString& property, 
         return;
     }
 
-    mbgl::optional<std::string> klass;
-    if (!styleClass.isEmpty()) {
-        klass = styleClass.toStdString();
-    }
-
-    if (conversion::setPaintProperty(*layer_, property.toStdString(), value, klass)) {
+    if (conversion::setPaintProperty(*layer_, property.toStdString(), value)) {
         qWarning() << "Error setting paint property:" << layer << "-" << property;
         return;
     }

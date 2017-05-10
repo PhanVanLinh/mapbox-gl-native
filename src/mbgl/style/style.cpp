@@ -15,7 +15,6 @@
 #include <mbgl/style/layer_impl.hpp>
 #include <mbgl/style/parser.hpp>
 #include <mbgl/style/transition_options.hpp>
-#include <mbgl/style/class_dictionary.hpp>
 #include <mbgl/sprite/sprite_atlas.hpp>
 #include <mbgl/text/glyph_atlas.hpp>
 #include <mbgl/geometry/line_atlas.hpp>
@@ -75,33 +74,6 @@ Style::~Style() {
     }
 }
 
-bool Style::addClass(const std::string& className) {
-    if (hasClass(className)) return false;
-    classes.push_back(className);
-    return true;
-}
-
-bool Style::hasClass(const std::string& className) const {
-    return std::find(classes.begin(), classes.end(), className) != classes.end();
-}
-
-bool Style::removeClass(const std::string& className) {
-    const auto it = std::find(classes.begin(), classes.end(), className);
-    if (it != classes.end()) {
-        classes.erase(it);
-        return true;
-    }
-    return false;
-}
-
-void Style::setClasses(const std::vector<std::string>& classNames) {
-    classes = classNames;
-}
-
-std::vector<std::string> Style::getClasses() const {
-    return classes;
-}
-
 void Style::setTransitionOptions(const TransitionOptions& options) {
     transitionOptions = options;
 }
@@ -114,7 +86,6 @@ void Style::setJSON(const std::string& json) {
     sources.clear();
     renderSources.clear();
     layers.clear();
-    classes.clear();
     transitionOptions = {};
     updateBatch = {};
 
@@ -313,16 +284,8 @@ double Style::getDefaultPitch() const {
 
 void Style::update(const UpdateParameters& parameters) {
     const bool zoomChanged = zoomHistory.update(parameters.transformState.getZoom(), parameters.timePoint);
-    const bool classesChanged = parameters.updateFlags & Update::Classes;
-
-    std::vector<ClassID> classIDs;
-    for (const auto& className : classes) {
-        classIDs.push_back(ClassDictionary::Get().lookup(className));
-    }
-    classIDs.push_back(ClassID::Default);
 
     const TransitionParameters transitionParameters {
-        classIDs,
         parameters.timePoint,
         parameters.mode == MapMode::Continuous ? transitionOptions : TransitionOptions()
     };
@@ -412,11 +375,11 @@ void Style::update(const UpdateParameters& parameters) {
         const bool layerAdded = layerDiff.added.count(entry.first);
         const bool layerChanged = layerDiff.changed.count(entry.first);
 
-        if (classesChanged || layerAdded || layerChanged) {
+        if (layerAdded || layerChanged) {
             layer.transition(transitionParameters);
         }
 
-        if (classesChanged || layerAdded || layerChanged || zoomChanged || layer.hasTransition()) {
+        if (layerAdded || layerChanged || zoomChanged || layer.hasTransition()) {
             layer.evaluate(evaluationParameters);
         }
     }
