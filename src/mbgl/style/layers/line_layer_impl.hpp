@@ -15,7 +15,7 @@ public:
 
     std::unique_ptr<RenderLayer> createRenderLayer() const override;
 
-    LineLayoutProperties layout;
+    LineLayoutProperties::Unevaluated layout;
     LinePaintProperties::Cascading paint;
 };
 

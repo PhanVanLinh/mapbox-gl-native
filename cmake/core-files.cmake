@@ -231,7 +231,6 @@ set(MBGL_CORE_FILES
     src/mbgl/renderer/tile_parameters.hpp
     src/mbgl/renderer/tile_pyramid.cpp
     src/mbgl/renderer/tile_pyramid.hpp
-    src/mbgl/renderer/transitioning_property.hpp
     src/mbgl/renderer/update_parameters.hpp
 
     # renderer/sources
@@ -331,11 +330,11 @@ set(MBGL_CORE_FILES
     src/mbgl/style/light_impl.cpp
     src/mbgl/style/light_impl.hpp
     src/mbgl/style/light_observer.hpp
-    src/mbgl/style/light_properties.hpp
     src/mbgl/style/observer.hpp
     src/mbgl/style/paint_property.hpp
     src/mbgl/style/parser.cpp
     src/mbgl/style/parser.hpp
+    src/mbgl/style/properties.hpp
     src/mbgl/style/rapidjson_conversion.hpp
     src/mbgl/style/source.cpp
     src/mbgl/style/source_impl.cpp
@@ -363,6 +362,7 @@ set(MBGL_CORE_FILES
     include/mbgl/style/conversion/tileset.hpp
     include/mbgl/style/conversion/transition_options.hpp
     src/mbgl/style/conversion/geojson.cpp
+    src/mbgl/style/conversion/json.hpp
     src/mbgl/style/conversion/stringify.hpp
 
     # style/function
